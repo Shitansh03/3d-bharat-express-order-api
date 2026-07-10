@@ -11,6 +11,13 @@ app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: '3D Bharat Express Order API is running'
+  });
+});
+
 app.get('/health', (req, res) => res.json({ status: 'ok' }));
 
 app.use('/api/orders', orderRoutes);
