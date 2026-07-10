@@ -1,0 +1,134 @@
+{
+  "info": {
+    "name": "3D Bharat - Express Orders API",
+    "description": "Task 1 (POST /api/orders), Task 2 (GET /api/orders/:id), Task 3 (POST /api/users/validate)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:3000" }
+  ],
+  "item": [
+    {
+      "name": "Task 1 - Create Order (new user)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/orders",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user\": {\n    \"full_name\": \"Rahul Sharma\",\n    \"email\": \"rahul@test.com\",\n    \"mobile\": \"9876543210\"\n  },\n  \"order\": {\n    \"order_date\": \"2026-07-06\",\n    \"items\": [\n      { \"product_name\": \"Laptop\", \"quantity\": 1, \"price\": 55000 },\n      { \"product_name\": \"Mouse\", \"quantity\": 2, \"price\": 700 }\n    ]\n  }\n}"
+        }
+      }
+    },
+    {
+      "name": "Task 1 - Create Order (existing user reused)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/orders",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user\": {\n    \"full_name\": \"Rahul Sharma\",\n    \"email\": \"rahul@test.com\",\n    \"mobile\": \"9876543210\"\n  },\n  \"order\": {\n    \"order_date\": \"2026-07-07\",\n    \"items\": [\n      { \"product_name\": \"Keyboard\", \"quantity\": 1, \"price\": 1200 }\n    ]\n  }\n}"
+        }
+      }
+    },
+    {
+      "name": "Task 1 - Duplicate product in order (400)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/orders",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user\": {\n    \"full_name\": \"Priya Singh\",\n    \"email\": \"priya@test.com\",\n    \"mobile\": \"9123456780\"\n  },\n  \"order\": {\n    \"order_date\": \"2026-07-06\",\n    \"items\": [\n      { \"product_name\": \"Laptop\", \"quantity\": 1, \"price\": 50000 },\n      { \"product_name\": \"laptop\", \"quantity\": 2, \"price\": 48000 }\n    ]\n  }\n}"
+        }
+      }
+    },
+    {
+      "name": "Task 1 - Email conflict (409)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/orders",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"user\": {\n    \"full_name\": \"Rahul Sharma\",\n    \"email\": \"rahul@test.com\",\n    \"mobile\": \"9999999999\"\n  },\n  \"order\": {\n    \"order_date\": \"2026-07-06\",\n    \"items\": [\n      { \"product_name\": \"Monitor\", \"quantity\": 1, \"price\": 8000 }\n    ]\n  }\n}"
+        }
+      }
+    },
+    {
+      "name": "Task 2 - Get Order by ID",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/orders/1"
+      }
+    },
+    {
+      "name": "Task 2 - Get Order (not found, 404)",
+      "request": {
+        "method": "GET",
+        "url": "{{baseUrl}}/api/orders/99999"
+      }
+    },
+    {
+      "name": "Task 3 - Validate new user (200)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/users/validate",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"full_name\": \"Neha Gupta\",\n  \"email\": \"neha@test.com\",\n  \"mobile\": \"9988776655\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Task 3 - Invalid email format (400)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/users/validate",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"full_name\": \"Test User\",\n  \"email\": \"not-an-email\",\n  \"mobile\": \"9988776655\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Task 3 - Invalid mobile length (400)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/users/validate",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"full_name\": \"Test User\",\n  \"email\": \"test2@test.com\",\n  \"mobile\": \"998877665\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Task 3 - Existing Active user (200)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/users/validate",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"full_name\": \"Rahul Sharma\",\n  \"email\": \"rahul@test.com\",\n  \"mobile\": \"9876543210\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Task 3 - Conflict, two different users (409)",
+      "request": {
+        "method": "POST",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/users/validate",
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"full_name\": \"Someone\",\n  \"email\": \"rahul@test.com\",\n  \"mobile\": \"9988776655\"\n}"
+        }
+      }
+    }
+  ]
+}
